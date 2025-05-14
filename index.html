@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Switcher with Animations</title>
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #ea4335;
+            --transition-speed: 0.3s;
+        }
+
+        .dark-theme {
+            --bg-color: #222;
+            --text-color: #f5f5f5;
+            --primary-color: #5c9cff;
+            --secondary-color: #56cf6e;
+            --accent-color: #ff6b5b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow var(--transition-speed), background-color var(--transition-speed);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: color var(--transition-speed);
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background-color: var(--accent-color);
+            transition: background-color var(--transition-speed);
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-toggle {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color var(--transition-speed), transform 0.2s;
+            margin: 1.5rem auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle:active {
+            transform: translateY(1px);
+        }
+
+        .toggle-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: white;
+            position: relative;
+            display: inline-block;
+            transition: transform var(--transition-speed);
+        }
+
+        .dark-theme .toggle-icon {
+            transform: translateX(20px) rotate(180deg);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            transition: background-color var(--transition-speed);
+        }
+
+        .feature-icon i {
+            color: white;
+            font-size: 24px;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            transition: color var(--transition-speed);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-rotate {
+            animation: rotate 3s linear infinite;
+        }
+
+        .theme-change {
+            animation: pulse 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Theme Switcher Demo</h1>
+        
+        <button id="themeToggle" class="theme-toggle">
+            <span class="toggle-icon"></span>
+            <span id="themeText">Switch to Dark Mode</span>
+        </button>
+        
+        <p>This demo showcases CSS transitions, animations, and localStorage integration. Your theme preference will be saved between visits.</p>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div style="color: white; font-weight: bold;">CSS</div>
+                </div>
+                <h3>Smooth Transitions</h3>
+                <p>All elements use CSS transitions for smooth color and property changes when toggling between themes.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div style="color: white; font-weight: bold;">JS</div>
+                </div>
+                <h3>Local Storage</h3>
+                <p>Your theme preference is automatically saved to localStorage and restored when you return.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div style="color: white; font-weight: bold;">🎨</div>
+                </div>
+                <h3>CSS Animations</h3>
+                <p>Various animations are implemented including fade-in, pulse, and rotation effects.</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <p>Click the button below to trigger an animation:</p>
+            <button id="animateBtn" style="background-color: var(--secondary-color); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: background-color var(--transition-speed);">
+                Animate Elements
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const body = document.body;
+        const themeToggle = document.getElementById('themeToggle');
+        const themeText = document.getElementById('themeText');
+        const animateBtn = document.getElementById('animateBtn');
+        const featureCards = document.querySelectorAll('.feature-card');
+        const featureIcons = document.querySelectorAll('.feature-icon');
+
+        function savePreference(key, value) {
+            try {
+                localStorage.setItem(key, value);
+                console.log(`Saved ${key}: ${value} to localStorage`);
+                return true;
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+                return false;
+            }
+        }
+
+        function getPreference(key, defaultValue) {
+            try {
+                const value = localStorage.getItem(key);
+                return value !== null ? value : defaultValue;
+            } catch (error) {
+                console.error('Error reading from localStorage:', error);
+                return defaultValue;
+            }
+        }
+
+        function toggleTheme() {
+            const isDarkTheme = body.classList.toggle('dark-theme');
+            
+            body.classList.add('theme-change');
+            setTimeout(() => {
+                body.classList.remove('theme-change');
+            }, 500);
+            
+            themeText.textContent = isDarkTheme ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+            
+            savePreference('darkTheme', isDarkTheme);
+        }
+
+        function triggerAnimations() {
+            featureCards.forEach(card => {
+                card.classList.remove('animate-pulse');
+            });
+            
+            featureIcons.forEach(icon => {
+                icon.classList.remove('animate-rotate');
+            });
+            
+            featureCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        card.classList.remove('animate-pulse');
+                    }, 2000);
+                }, index * 200);
+            });
+            
+            featureIcons.forEach((icon, index) => {
+                setTimeout(() => {
+                    icon.classList.add('animate-rotate');
+                    setTimeout(() => {
+                        icon.classList.remove('animate-rotate');
+                    }, 3000);
+                }, index * 200);
+            });
+        }
+
+        function initTheme() {
+            const savedTheme = getPreference('darkTheme', 'false');
+            
+            if (savedTheme === 'true') {
+                body.classList.add('dark-theme');
+                themeText.textContent = 'Switch to Light Mode';
+            } else {
+                themeText.textContent = 'Switch to Dark Mode';
+            }
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        animateBtn.addEventListener('click', triggerAnimations);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            
+            featureCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+    </script>
+</body>
+</html>
